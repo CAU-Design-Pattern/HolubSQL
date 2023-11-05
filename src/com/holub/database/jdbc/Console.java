@@ -157,14 +157,18 @@ public class Console
 					continue;
 
 				if( !(statements[i].startsWith("SELECT") || statements[i].startsWith("select")) )
-				{	int	status = statement.executeUpdate(statements[i]);
+				{	// executeUpdate(String sql): 조회문(select, show 등)을 제외한 
+					// create, drop, insert, delete, update 문을
+					// 사용할 때 호출하는 메소드
+					int	status = statement.executeUpdate(statements[i]); 
 					sqlOut.setText( 
 						sqlOut.getText() + line +
 						"Processed: " + statements[i] +
 						"\nStatus=" + String.valueOf(status) + "\n");
 				}
-				else
-				{	ResultSet results = statement.executeQuery( statements[i] );
+				else // SELECT, select
+				{	// executeQuery(String sql): 조회문(select, show 등)을 사용할 때 호출하는 메소드
+					ResultSet results = statement.executeQuery( statements[i] );
 					sqlOut.setText(
 							sqlOut.getText() + line +
 							"Processed: " + statements[i] + 
@@ -256,7 +260,7 @@ public class Console
 	//----------------------------------------------------------------------
 	private void closeDatabase()
 	{	try
-		{	if(statement != null) statement.close();
+		{	if(statement != null) .close();
 			if(connection!= null) connection.close();
 		}
 		catch(Exception e)
