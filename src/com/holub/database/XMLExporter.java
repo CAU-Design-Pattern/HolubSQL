@@ -28,6 +28,11 @@ public class XMLExporter implements Table.Exporter {
 		while (columnNames.hasNext())
 			this.columnNames[i++] = (String) columnNames.next();
 		out.write("<" + tableName + ">\n");
+		out.write("\t<columns>\n");
+		for (String column : this.columnNames) {
+			out.write("\t\t<column>" + column + "</column>\n");
+		}
+		out.write("\t</columns>\n");
 	}
 
 	@Override

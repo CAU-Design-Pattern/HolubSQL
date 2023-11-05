@@ -64,6 +64,11 @@ public class XMLExporterTest {
 			String peopleTestString = """
 					<?xml version="1.0" encoding="UTF-8"?>
 					<people>
+						<columns>
+							<column>last</column>
+							<column>first</column>
+							<column>addrId</column>
+						</columns>
 						<row>
 							<last>Holub</last>
 							<first>Allen</first>
@@ -96,6 +101,13 @@ public class XMLExporterTest {
 			String addressTestString = """
 					<?xml version="1.0" encoding="UTF-8"?>
 					<address>
+						<columns>
+							<column>addrId</column>
+							<column>street</column>
+							<column>city</column>
+							<column>state</column>
+							<column>zip</column>
+						</columns>
 						<row>
 							<addrId>1</addrId>
 							<street>123 MyStreet</street>
