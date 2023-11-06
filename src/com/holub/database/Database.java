@@ -796,8 +796,8 @@ public final class Database
 			affectedRows = doDelete( tableName, expr() );
 		}
 		else if( in.matchAdvance(SELECT) != null )
-		{	List columns = idList();
-
+		{	List columns = idList(); // "*" 사용 시 columns = null
+			
 			String into = null;
 			if( in.matchAdvance(INTO) != null )
 				into = in.required(IDENTIFIER);
@@ -807,6 +807,7 @@ public final class Database
 
 			Expression where = (in.matchAdvance(WHERE) == null)
 								? null : expr();
+			
 			Table result = doSelect(columns, into,
 								requestedTableNames, where );
 			return result;
@@ -1393,9 +1394,7 @@ public final class Database
 										List requestedTableNames,
 										final Expression where )
 										throws ParseFailure
-	{
-
-		Iterator tableNames = requestedTableNames.iterator();
+	{	Iterator tableNames = requestedTableNames.iterator();
 
 		assert tableNames.hasNext() : "No tables to use in select!" ;
 
@@ -1436,7 +1435,6 @@ public final class Database
 
 		try
 		{	Table result = primary.select(selector, columns, participantsInJoin);
-
 			// If this is a "SELECT INTO <table>" request, remove the 
 			// returned table from the UnmodifiableTable wrapper, give
 			// it a name, and put it into the tables Map.
@@ -1449,7 +1447,8 @@ public final class Database
 			return result;
 		}
 		catch( ThrowableContainer container )
-		{	throw (ParseFailure) container.contents();
+		{	System.out.println("1");
+			throw (ParseFailure) container.contents();
 		}
 	}
 	//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
