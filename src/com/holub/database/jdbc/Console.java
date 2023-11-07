@@ -32,17 +32,19 @@ import javax.swing.*;
 import java.sql.*;
 
 /** This program is a toy database-console window that lets you
- *  exercise the HolubSQL database. It opens up a databse, then
+ *  exercise the HolubSQL database. It opens up a database, then
  *  displays two windows, one in which you enter SQL and another
  *  that shows the result of the operation. If an exception is
  *  encountered, a window showing the stack trace pops up.
  *
  *  <p>Bugs:
  *  The window does not resize elegantly, so I've disabled
- *  resising altogether rather than fix the problem.
+ *  resizing altogether rather than fix the problem.
  *
  * @include /etc/license.txt
  */
+
+// C:/Users/user/eclipse-workspace/HolubSQL/Dbase
 
 public class Console
 {
@@ -157,14 +159,19 @@ public class Console
 					continue;
 
 				if( !(statements[i].startsWith("SELECT") || statements[i].startsWith("select")) )
-				{	int	status = statement.executeUpdate(statements[i]);
+				{	// executeUpdate(String sql): 조회문(select, show 등)을 제외한 
+					// create, drop, insert, delete, update 문을
+					// 사용할 때 호출하는 메소드
+					int	status = statement.executeUpdate(statements[i]); 
 					sqlOut.setText( 
 						sqlOut.getText() + line +
 						"Processed: " + statements[i] +
 						"\nStatus=" + String.valueOf(status) + "\n");
 				}
 				else
-				{	ResultSet results = statement.executeQuery( statements[i] );
+				{	// executeQuery(String sql): 조회문(select, show 등)을 사용할 때 호출하는 메소드
+					// JDBCStatement.java의 executeQuery() 참고
+					ResultSet results = statement.executeQuery( statements[i] );
 					sqlOut.setText(
 							sqlOut.getText() + line +
 							"Processed: " + statements[i] + 

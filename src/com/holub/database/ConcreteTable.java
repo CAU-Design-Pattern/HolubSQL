@@ -446,7 +446,7 @@ import com.holub.tools.ArrayIterator;
 			Table[] otherTables) {
 		// If we're not doing a join, use the more efficient version
 		// of select().
-
+		
 		if (otherTables == null || otherTables.length == 0)
 			return select(where, requestedColumns);
 
@@ -456,10 +456,10 @@ import com.holub.tools.ArrayIterator;
 		Table[] allTables = new Table[otherTables.length + 1];
 		allTables[0] = this;
 		System.arraycopy(otherTables, 0, allTables, 1, otherTables.length);
-
+		
 		// Create places to hold the result of the join and to hold
 		// iterators for each table involved in the join.
-
+		
 		Table resultTable = new ConcreteTable(null, requestedColumns);
 		Cursor[] envelope = new Cursor[allTables.length];
 
@@ -568,7 +568,20 @@ import com.holub.tools.ArrayIterator;
 			while (column.hasNext())
 				columnNames[i++] = column.next().toString();
 		}
-
+		else {
+			LinkedHashSet<String> columns = new LinkedHashSet<String>();
+			for (String columnName : this.columnNames) {
+				columns.add(columnName);
+			}
+			for (Table table: (List<Table>) other) {
+				Cursor cursor = table.rows();
+				for (int i = 0; i < cursor.columnCount(); i++) {
+					columns.add(cursor.columnName(i));
+				}
+			}
+			columnNames = columns.toArray(new String[columns.size()]);
+		}
+		
 		if (other != null)
 			otherTables = (Table[]) other.toArray(new Table[other.size()]);
 
