@@ -570,7 +570,7 @@ import com.holub.tools.ArrayIterator;
 		}
 		else {
 			// TODO
-			HashSet<String> columns = new HashSet<String>();
+			LinkedHashSet<String> columns = new LinkedHashSet<String>();
 			for (String columnName : this.columnNames) {
 				columns.add(columnName);
 			}
