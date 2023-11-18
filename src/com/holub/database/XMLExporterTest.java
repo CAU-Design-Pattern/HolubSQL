@@ -12,8 +12,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class XMLExporterTest {
-	//@Test
-	public void XMLExporterTest() {
+	@Test
+	public void xMLExporterTest() {
 		Table people = TableFactory.create("people", new String[] { "last", "first", "addrId" });
 		Table address = TableFactory.create("address", new String[] { "addrId", "street", "city", "state", "zip" });
 		try {
@@ -59,33 +59,35 @@ public class XMLExporterTest {
 			peopeWriter.close();
 
 			Path peopleFilePath = Paths.get("people");
-			String peopleFileString = Files.readString(peopleFilePath);
+            String peopleFileString = new String(Files.readAllBytes(peopleFilePath));
+			
 
-			String peopleTestString = """
-					<?xml version="1.0" encoding="UTF-8"?>
-					<people>
-						<columns>
-							<column>last</column>
-							<column>first</column>
-							<column>addrId</column>
-						</columns>
-						<row>
-							<last>Holub</last>
-							<first>Allen</first>
-							<addrId>1</addrId>
-						</row>
-						<row>
-							<last>Flintstone</last>
-							<first>Wilma</first>
-							<addrId>2</addrId>
-						</row>
-						<row>
-							<last>Flintstone</last>
-							<first>Fred</first>
-							<addrId>2</addrId>
-						</row>
-					</people>
-					""";
+            String peopleTestString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            		"<people>\n" +
+            	    "\t<columns>\n" +
+            	    "\t\t<column>last</column>\n" +
+            	    "\t\t<column>first</column>\n" +
+            	    "\t\t<column>addrId</column>\n" +
+            	    "\t</columns>\n" +
+            	    "\t<row>\n" +
+            	    "\t\t<last>Holub</last>\n" +
+            	    "\t\t<first>Allen</first>\n" +
+            	    "\t\t<addrId>1</addrId>\n" +
+            	    "\t</row>\n" +
+            	    "\t<row>\n" +
+            	    "\t\t<last>Flintstone</last>\n" +
+            	    "\t\t<first>Wilma</first>\n" +
+            	    "\t\t<addrId>2</addrId>\n" +
+            	    "\t</row>\n" +
+            	    "\t<row>\n" +
+            	    "\t\t<last>Flintstone</last>\n" +
+            	    "\t\t<first>Fred</first>\n" +
+            	    "\t\t<addrId>2</addrId>\n" +
+            	    "\t</row>\n" +
+            	    "</people>\n";
+
+
+
 
 			Assert.assertEquals(peopleFileString, peopleTestString);
 			System.out.println("\n\n");
@@ -96,41 +98,42 @@ public class XMLExporterTest {
 			addressWriter.close();
 
 			Path addressFilePath = Paths.get("address");
-			String addressFileString = Files.readString(addressFilePath);
+			String addressFileString = new String(Files.readAllBytes(addressFilePath));
 
-			String addressTestString = """
-					<?xml version="1.0" encoding="UTF-8"?>
-					<address>
-						<columns>
-							<column>addrId</column>
-							<column>street</column>
-							<column>city</column>
-							<column>state</column>
-							<column>zip</column>
-						</columns>
-						<row>
-							<addrId>1</addrId>
-							<street>123 MyStreet</street>
-							<city>Berkeley</city>
-							<state>CA</state>
-							<zip>99999</zip>
-						</row>
-						<row>
-							<addrId>2</addrId>
-							<street>123 Quarry Ln.</street>
-							<city>Bedrock </city>
-							<state>XX</state>
-							<zip>12345</zip>
-						</row>
-						<row>
-							<addrId>3</addrId>
-							<street>Bogus</street>
-							<city>Bad</city>
-							<state>XX</state>
-							<zip>12345</zip>
-						</row>
-					</address>
-										""";
+
+			String addressTestString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+				    "<address>\n" +
+				    "\t<columns>\n" +
+				    "\t\t<column>addrId</column>\n" +
+				    "\t\t<column>street</column>\n" +
+				    "\t\t<column>city</column>\n" +
+				    "\t\t<column>state</column>\n" +
+				    "\t\t<column>zip</column>\n" +
+				    "\t</columns>\n" +
+				    "\t<row>\n" +
+				    "\t\t<addrId>1</addrId>\n" +
+				    "\t\t<street>123 MyStreet</street>\n" +
+				    "\t\t<city>Berkeley</city>\n" +
+				    "\t\t<state>CA</state>\n" +
+				    "\t\t<zip>99999</zip>\n" +
+				    "\t</row>\n" +
+				    "\t<row>\n" +
+				    "\t\t<addrId>2</addrId>\n" +
+				    "\t\t<street>123 Quarry Ln.</street>\n" +
+				    "\t\t<city>Bedrock </city>\n" +
+				    "\t\t<state>XX</state>\n" +
+				    "\t\t<zip>12345</zip>\n" +
+				    "\t</row>\n" +
+				    "\t<row>\n" +
+				    "\t\t<addrId>3</addrId>\n" +
+				    "\t\t<street>Bogus</street>\n" +
+				    "\t\t<city>Bad</city>\n" +
+				    "\t\t<state>XX</state>\n" +
+				    "\t\t<zip>12345</zip>\n" +
+				    "\t</row>\n" +
+				    "</address>\n";
+
+
 
 			Assert.assertEquals(addressFileString, addressTestString);
 			System.out.println("\n\n");
