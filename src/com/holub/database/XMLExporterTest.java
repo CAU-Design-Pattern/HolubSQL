@@ -8,8 +8,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class XMLExporterTest {
 	@Test
@@ -89,7 +90,7 @@ public class XMLExporterTest {
 
 
 
-			Assert.assertEquals(peopleFileString, peopleTestString);
+			assertEquals(peopleFileString, peopleTestString);
 			System.out.println("\n\n");
 
 			System.out.println("---- Adress Table Write. ----\n");
@@ -135,7 +136,7 @@ public class XMLExporterTest {
 
 
 
-			Assert.assertEquals(addressFileString, addressTestString);
+			assertEquals(addressFileString, addressTestString);
 			System.out.println("\n\n");
 
 		} catch (Throwable t) {
