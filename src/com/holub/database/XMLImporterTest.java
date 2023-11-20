@@ -1,3 +1,5 @@
+package com.holub.database;
+
 import org.junit.Test;
 
 import java.io.Reader;
@@ -6,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 
 public class XMLImporterTest {
