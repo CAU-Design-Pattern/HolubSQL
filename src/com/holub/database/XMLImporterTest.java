@@ -16,7 +16,6 @@ public class XMLImporterTest {
     @Test
     public void testXMLImporter() {
         try {
-            // XML 형식의 데이터를 포함한 문자열을 생성합니다.
             String xmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                     "<table name=\"SampleTable\">" +
                     "  <row>" +
