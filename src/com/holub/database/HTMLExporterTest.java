@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -33,13 +34,16 @@ class HTMLExporterTest {
 			people.insert(row[i]);
 		}
 		
-		File htmlFile = new File("People_RawName_Empty.html"); 
+		File htmlFile = new File("c:\\dp2023\\People_RawName_Empty.html"); 
 		Writer out = new FileWriter(htmlFile);
 		HTMLExporter exporter = new HTMLExporter(out);
 		people.export(exporter);
 		out.close();
 		
-		String lines = Files.readString(Paths.get(htmlFile.getPath()));
+		byte[] htmlByte = Files.readAllBytes(Paths.get(htmlFile.getPath()));
+		String lines = new String(htmlByte,StandardCharsets.UTF_8);
+		//over jdk11
+		//String lines = Files.readString(Paths.get(htmlFile.getPath()));
 		Document doc = Jsoup.parseBodyFragment(lines);
 		Element table = doc.select("table").get(0);
 
@@ -70,13 +74,15 @@ class HTMLExporterTest {
 			people.insert(row[i]);
 		}
 		
-		File htmlFile = new File("People_Data_Empty.html"); 
+		File htmlFile = new File("c:\\dp2023\\People_Data_Empty.html"); 
 		Writer out = new FileWriter(htmlFile);
 		HTMLExporter exporter = new HTMLExporter(out);
 		people.export(exporter);
 		out.close();
-		
-		String lines = Files.readString(Paths.get(htmlFile.getPath()));
+
+		byte[] htmlByte = Files.readAllBytes(Paths.get(htmlFile.getPath()));
+		String lines = new String(htmlByte,StandardCharsets.UTF_8);
+		//String lines = Files.readString(Paths.get(htmlFile.getPath()));
 		Document doc = Jsoup.parseBodyFragment(lines);
 		Element table = doc.select("table").get(0);
 
@@ -106,7 +112,7 @@ class HTMLExporterTest {
 		people.insert(row3);
 		people.insert(row4);
 		
-		File htmlFile = new File("People_Test_Raw.html"); 
+		File htmlFile = new File("c:\\dp2023\\People_Test_Raw.html"); 
 		Writer out = new FileWriter(htmlFile);
 		HTMLExporter exporter = new HTMLExporter(out);
 		people.export(exporter);
@@ -121,7 +127,10 @@ class HTMLExporterTest {
 				+ "<tr><td>New String</td><td>Hello</td><td>2</td></tr>\n"
 				+ "<tr><td>Flintstone</td><td>Fred</td><td>2</td></tr>\n"
 				+ "</table></body></html>\n";
-		String lines = Files.readString(Paths.get(htmlFile.getPath()));
+
+		byte[] htmlByte = Files.readAllBytes(Paths.get(htmlFile.getPath()));
+		String lines = new String(htmlByte,StandardCharsets.UTF_8);
+		//String lines = Files.readString(Paths.get(htmlFile.getPath()));
 		assertEquals(HTMLTestString, lines);
 		
 	}
@@ -144,13 +153,15 @@ class HTMLExporterTest {
 			people.insert(row[i]);
 		}
 		
-		File htmlFile = new File("People_Test_Jsoup.html"); 
+		File htmlFile = new File("c:\\dp2023\\People_Test_Jsoup.html"); 
 		Writer out = new FileWriter(htmlFile);
 		HTMLExporter exporter = new HTMLExporter(out);
 		people.export(exporter);
 		out.close();
-		
-		String lines = Files.readString(Paths.get(htmlFile.getPath()));
+
+		byte[] htmlByte = Files.readAllBytes(Paths.get(htmlFile.getPath()));
+		String lines = new String(htmlByte,StandardCharsets.UTF_8);
+		//String lines = Files.readString(Paths.get(htmlFile.getPath()));
 		Document doc = Jsoup.parseBodyFragment(lines);
 		Element table = doc.select("table").get(0);
 
@@ -166,6 +177,10 @@ class HTMLExporterTest {
 		}
 	}
 	
+	/*
+	 * 실패하는 테스트
+	 * 해당 테스트를 통과하기 위해 옳바른 출력이 뭔지 정의해야 한다(HTMLExporter 보고서 참조)
+	 */
 	@Test
 	void test_Tag_Data() throws IOException{
 		String tableName = "People_Test_tag";
@@ -183,13 +198,15 @@ class HTMLExporterTest {
 			people.insert(row[i]);
 		}
 		
-		File htmlFile = new File("People_Test_Tag.html"); 
+		File htmlFile = new File("c:\\dp2023\\People_Test_Tag.html"); 
 		Writer out = new FileWriter(htmlFile);
 		HTMLExporter exporter = new HTMLExporter(out);
 		people.export(exporter);
 		out.close();
-		
-		String lines = Files.readString(Paths.get(htmlFile.getPath()));
+
+		byte[] htmlByte = Files.readAllBytes(Paths.get(htmlFile.getPath()));
+		String lines = new String(htmlByte,StandardCharsets.UTF_8);
+		//String lines = Files.readString(Paths.get(htmlFile.getPath()));
 		Document doc = Jsoup.parseBodyFragment(lines);
 		Element table = doc.select("table").get(0);
 
