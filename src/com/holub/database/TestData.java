@@ -9,20 +9,20 @@ public class TestData {
     public static List<Map<String, String>> createTestData() {
         List<Map<String, String>> testData = new ArrayList<>();
 
-        // Å×½ºÆ® µ¥ÀÌÅÍ Ãß°¡
+        // í…ŒìŠ¤íŠ¸ ë°ì´í„° ì¶”ê°€
         Map<String, String> row1 = new HashMap<>();
         row1.put("column1", "Value1-1");
         row1.put("column2", "Value1-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row1);
 
         Map<String, String> row2 = new HashMap<>();
         row2.put("column1", "Value2-1");
         row2.put("column2", "Value2-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row2);
 
-        // ÇÊ¿äÇÑ ¸¸Å­ µ¥ÀÌÅÍ Ãß°¡...
+        // í•„ìš”í•œ ë§Œí¼ ë°ì´í„° ì¶”ê°€...
 
         return testData;
     }
@@ -30,92 +30,92 @@ public class TestData {
     public static List<Map<String, String>> createSelectTestData() {
         List<Map<String, String>> testData = new ArrayList<>();
 
-        // Å×½ºÆ® µ¥ÀÌÅÍ Ãß°¡
+        // í…ŒìŠ¤íŠ¸ ë°ì´í„° ì¶”ê°€
         Map<String, String> row1 = new HashMap<>();
         row1.put("column1", "Value1-1");
         row1.put("column2", "Value1-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row1);
 
         Map<String, String> row2 = new HashMap<>();
         row2.put("column1", "Value2-1");
         row2.put("column2", "Value2-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row2);
 
-        // ÇÊ¿äÇÑ ¸¸Å­ µ¥ÀÌÅÍ Ãß°¡...
+        // í•„ìš”í•œ ë§Œí¼ ë°ì´í„° ì¶”ê°€...
 
         return testData;
     }
 
     public static List<Map<String, String>> createDistinctTestData() {
-        // DISTINCT Å×½ºÆ®¿¡ »ç¿ëµÉ µ¥ÀÌÅÍ »ı¼º
-        // Áßº¹µÈ µ¥ÀÌÅÍ°¡ ¾ø´Â µ¥ÀÌÅÍ¸¦ »ı¼ºÇÏ¿© ¹İÈ¯
+        // DISTINCT í…ŒìŠ¤íŠ¸ì— ì‚¬ìš©ë  ë°ì´í„° ìƒì„±
+        // ì¤‘ë³µëœ ë°ì´í„°ê°€ ì—†ëŠ” ë°ì´í„°ë¥¼ ìƒì„±í•˜ì—¬ ë°˜í™˜
         List<Map<String, String>> testData = new ArrayList<>();
 
-        // Å×½ºÆ® µ¥ÀÌÅÍ Ãß°¡
+        // í…ŒìŠ¤íŠ¸ ë°ì´í„° ì¶”ê°€
         Map<String, String> row1 = new HashMap<>();
         row1.put("column1", "Value1-1");
         row1.put("column2", "Value1-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row1);
 
         Map<String, String> row2 = new HashMap<>();
         row2.put("column1", "Value2-1");
         row2.put("column2", "Value2-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row2);
 
-        // ÇÊ¿äÇÑ ¸¸Å­ µ¥ÀÌÅÍ Ãß°¡...
+        // í•„ìš”í•œ ë§Œí¼ ë°ì´í„° ì¶”ê°€...
 
         return testData;
     }
 
     public static List<Map<String, String>> createGroupByTestData() {
-        // GROUP BY Å×½ºÆ®¿¡ »ç¿ëµÉ µ¥ÀÌÅÍ »ı¼º
-        // ±×·ìÈ­µÈ µ¥ÀÌÅÍ¸¦ »ı¼ºÇÏ¿© ¹İÈ¯
+        // GROUP BY í…ŒìŠ¤íŠ¸ì— ì‚¬ìš©ë  ë°ì´í„° ìƒì„±
+        // ê·¸ë£¹í™”ëœ ë°ì´í„°ë¥¼ ìƒì„±í•˜ì—¬ ë°˜í™˜
         List<Map<String, String>> testData = new ArrayList<>();
 
-        // Å×½ºÆ® µ¥ÀÌÅÍ Ãß°¡ (¿©±â¼­´Â ±×·ìÈ­ÇÒ ÄÃ·³ÀÌ column1ÀÎ °æ¿ì)
+        // í…ŒìŠ¤íŠ¸ ë°ì´í„° ì¶”ê°€ (ì—¬ê¸°ì„œëŠ” ê·¸ë£¹í™”í•  ì»¬ëŸ¼ì´ column1ì¸ ê²½ìš°)
         Map<String, String> row1 = new HashMap<>();
         row1.put("column1", "Value1-1");
         row1.put("COUNT(*)", "1");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row1);
 
         Map<String, String> row2 = new HashMap<>();
         row2.put("column1", "Value2-1");
         row2.put("COUNT(*)", "1");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row2);
 
-        // ÇÊ¿äÇÑ ¸¸Å­ µ¥ÀÌÅÍ Ãß°¡...
+        // í•„ìš”í•œ ë§Œí¼ ë°ì´í„° ì¶”ê°€...
 
         return testData;
     }
 
     public static List<Map<String, String>> createOrderByTestData() {
-        // ORDER BY Å×½ºÆ®¿¡ »ç¿ëµÉ µ¥ÀÌÅÍ »ı¼º
-        // Á¤·ÄµÈ µ¥ÀÌÅÍ¸¦ »ı¼ºÇÏ¿© ¹İÈ¯
+        // ORDER BY í…ŒìŠ¤íŠ¸ì— ì‚¬ìš©ë  ë°ì´í„° ìƒì„±
+        // ì •ë ¬ëœ ë°ì´í„°ë¥¼ ìƒì„±í•˜ì—¬ ë°˜í™˜
         List<Map<String, String>> testData = new ArrayList<>();
 
-        // Å×½ºÆ® µ¥ÀÌÅÍ Ãß°¡ (¿©±â¼­´Â column1À» ±âÁØÀ¸·Î Á¤·Ä)
+        // í…ŒìŠ¤íŠ¸ ë°ì´í„° ì¶”ê°€ (ì—¬ê¸°ì„œëŠ” column1ì„ ê¸°ì¤€ìœ¼ë¡œ ì •ë ¬)
         Map<String, String> row1 = new HashMap<>();
         row1.put("column1", "Value1-1");
         row1.put("column2", "Value1-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row1);
 
         Map<String, String> row2 = new HashMap<>();
         row2.put("column1", "Value2-1");
         row2.put("column2", "Value2-2");
-        // Ãß°¡ÀûÀÎ ÄÃ·³ µ¥ÀÌÅÍ Ãß°¡...
+        // ì¶”ê°€ì ì¸ ì»¬ëŸ¼ ë°ì´í„° ì¶”ê°€...
         testData.add(row2);
 
-        // ÇÊ¿äÇÑ ¸¸Å­ µ¥ÀÌÅÍ Ãß°¡...
+        // í•„ìš”í•œ ë§Œí¼ ë°ì´í„° ì¶”ê°€...
 
         return testData;
     }
 
-    // ´Ù¸¥ Å×½ºÆ® µ¥ÀÌÅÍ »ı¼º ¸Ş¼­µåµé...
+    // ë‹¤ë¥¸ í…ŒìŠ¤íŠ¸ ë°ì´í„° ìƒì„± ë©”ì„œë“œë“¤...
 }
