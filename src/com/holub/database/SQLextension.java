@@ -2,12 +2,43 @@ package com.holub.database;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.HashMap;
 
+public interface QueryStrategy {
+    
+    SQLextension.Table executeQuery(List<String> selectedColumns, SQLextension.Table table);
+}
 
+class DistinctQuery implements QueryStrategy {
+    @Override
+    public SQLextension.Table executeQuery(List<String> selectedColumns, SQLextension.Table table) {
+        return table.distinct(selectedColumns);
+    }
+}
 
-class SQLextension {
+class GroupByQuery implements QueryStrategy {
+    @Override
+    public SQLextension.Table executeQuery(List<String> selectedColumns, SQLextension.Table table) {
+        return table.groupBy(selectedColumns.get(0));
+    }
+}
+
+class OrderByQuery implements QueryStrategy {
+    @Override
+    public SQLextension.Table executeQuery(List<String> selectedColumns, SQLextension.Table table) {
+        return table.orderBy(selectedColumns.get(0));
+    }
+}
+
+class SelectQuery implements QueryStrategy {
+    @Override
+    public SQLextension.Table executeQuery(List<String> selectedColumns, SQLextension.Table table) {
+        return table.select(selectedColumns);
+    }
+}
+
+public class SQLextension {
     private List<Table> tables;
+    private QueryStrategy queryStrategy;
 
     public SQLextension() {
         this.tables = new ArrayList<>();
@@ -17,35 +48,29 @@ class SQLextension {
         tables.add(table);
     }
 
+    public void setQueryStrategy(QueryStrategy queryStrategy) {
+        this.queryStrategy = queryStrategy;
+    }
+
     public Table executeQuery(String query) {
         if (query.contains("SELECT") && query.contains("FROM")) {
             List<String> selectedColumns = extractColumns(query);
-
-            if (query.contains("DISTINCT")) {
-                return executeDistinct(selectedColumns);
-            } else if (query.contains("GROUP BY")) {
-                String groupByColumn = extractGroupByColumn(query);
-                return executeGroupBy(selectedColumns, groupByColumn);
-            } else if (query.contains("ORDER BY")) {
-                String orderByColumn = extractOrderByColumn(query);
-                return executeOrderBy(selectedColumns, orderByColumn);
+            if (queryStrategy != null) {
+                // ì—¬ê¸°ì„œ SQLextension.Tableì„ ê·¸ëƒ¥ Tableë¡œ ë³€ê²½
+                return queryStrategy.executeQuery(selectedColumns, tables.get(0));
             } else {
-                return executeSelect(selectedColumns);
+                throw new IllegalStateException("Query strategy is not set.");
             }
         }
 
-        // °£´ÜÇÑ Ã³¸® ·ÎÁ÷À» ³Ö¾îÁÙ °Í
-        return new Table(Collections.emptyList()); // ºó ¸®½ºÆ®·Î ÃÊ±âÈ­
+        return new Table(Collections.emptyList());
     }
 
     private List<String> extractColumns(String query) {
-        // Äõ¸®¿¡¼­ ¼±ÅÃµÈ ¿­À» ÃßÃâÇÏ´Â ·ÎÁ÷
-        // ¿©±â¼­´Â "SELECT" ´ÙÀ½ÀÇ ³»¿ëÀ» ÃßÃâ
         int startIndex = query.indexOf("SELECT") + 6;
         int endIndex = query.indexOf("FROM");
         String columnsString = query.substring(startIndex, endIndex).trim();
         if ("*".equals(columnsString)) {
-            // "*"ÀÎ °æ¿ì ¸ğµç ¿­À» ¼±ÅÃ
             return tables.get(0).getRows().isEmpty() ?
                     Collections.emptyList() :
                     new ArrayList<>(tables.get(0).getRows().get(0).keySet());
@@ -54,80 +79,8 @@ class SQLextension {
         }
     }
 
-
-    private String extractGroupByColumn(String query) {
-        // GROUP BY Àı¿¡¼­ ±×·ìÈ­ÇÒ ¿­À» ÃßÃâÇÏ´Â ·ÎÁ÷
-        // ¿©±â¼­´Â °£·«È­¸¦ À§ÇØ "GROUP BY" ±¸¹® µÚ¿¡ ¿À´Â ¿­À» ÃßÃâÇÑ´Ù°í °¡Á¤
-        int groupByIndex = query.indexOf("GROUP BY");
-        return query.substring(groupByIndex + 8).trim();
-    }
-
-    private String extractOrderByColumn(String query) {
-        // ORDER BY Àı¿¡¼­ Á¤·ÄÇÒ ¿­À» ÃßÃâÇÏ´Â ·ÎÁ÷
-        // ¿©±â¼­´Â °£·«È­¸¦ À§ÇØ "ORDER BY" ±¸¹® µÚ¿¡ ¿À´Â ¿­À» ÃßÃâÇÑ´Ù°í °¡Á¤
-        int orderByIndex = query.indexOf("ORDER BY");
-        return query.substring(orderByIndex + 8).trim();
-    }
-
-    private Table executeDistinct(List<String> selectedColumns) {
-        // DISTINCT Ã³¸® ·ÎÁ÷
-        // Áßº¹À» Á¦°ÅÇÏ¿© °á°ú ¹İÈ¯
-        Table table = tables.get(0); // ¿©±â¼­´Â Ã¹ ¹øÂ° Å×ÀÌºíÀ» »ç¿ëÇÑ´Ù°í °¡Á¤
-        return table.distinct(selectedColumns);
-    }
-
- // executeGroupBy ¸Ş¼­µå ¼öÁ¤
-    private Table executeGroupBy(List<String> selectedColumns, String groupByColumn) {
-        // GROUP BY Ã³¸® ·ÎÁ÷
-        // ±×·ìÈ­µÈ °á°ú ¹İÈ¯
-        Table table = tables.get(0); // ¿©±â¼­´Â Ã¹ ¹øÂ° Å×ÀÌºíÀ» »ç¿ëÇÑ´Ù°í °¡Á¤
-        Map<String, List<Map<String, String>>> groupedData = table.getRows().stream()
-                .collect(Collectors.groupingBy(row -> row.get(groupByColumn)));
-
-        List<Map<String, String>> resultRows = new ArrayList<>();
-        for (Map.Entry<String, List<Map<String, String>>> entry : groupedData.entrySet()) {
-            Map<String, String> groupRow = new HashMap<>();
-            groupRow.put(groupByColumn, entry.getKey());
-            groupRow.put("COUNT(*)", String.valueOf(entry.getValue().size()));
-            resultRows.add(groupRow);
-        }
-
-        return new Table(resultRows);
-    }
-
-
-    private Table executeOrderBy(List<String> selectedColumns, String orderByColumn) {
-        // ORDER BY Ã³¸® ·ÎÁ÷
-        // Á¤·ÄµÈ °á°ú ¹İÈ¯
-        Table table = tables.get(0); // ¿©±â¼­´Â Ã¹ ¹øÂ° Å×ÀÌºíÀ» »ç¿ëÇÑ´Ù°í °¡Á¤
-        return table.orderBy(selectedColumns, orderByColumn);
-    }
-
- // executeSelect ¸Ş¼­µå ¼öÁ¤
-    private Table executeSelect(List<String> selectedColumns) {
-        // SELECT Ã³¸® ·ÎÁ÷
-        // ¼±ÅÃµÈ ¿­À» ¹İÈ¯
-        Table table = tables.get(0); // ¿©±â¼­´Â Ã¹ ¹øÂ° Å×ÀÌºíÀ» »ç¿ëÇÑ´Ù°í °¡Á¤
-        List<Map<String, String>> selectedRows = table.getRows().stream()
-                .map(row -> {
-                    if (selectedColumns.isEmpty()) {
-                        // ¼±ÅÃµÈ ¿­ÀÌ ¾øÀ¸¸é ¸ğµç ¿­ ¼±ÅÃ
-                        return new HashMap<>(row);
-                    } else {
-                        // ¼±ÅÃµÈ ¿­¸¸ ¼±ÅÃ
-                        return selectedColumns.stream()
-                                .filter(row::containsKey)
-                                .collect(Collectors.toMap(column -> column, row::get));
-                    }
-                })
-                .collect(Collectors.toList());
-
-        return new Table(selectedRows);
-    }
-
-
-    // Table Å¬·¡½º¿Í °ü·Ã ¸Ş¼­µåµé
-    static class Table {
+    // Nested Table class
+    public static class Table {
         private List<Map<String, String>> rows;
 
         public Table(List<Map<String, String>> rows) {
@@ -135,24 +88,24 @@ class SQLextension {
         }
 
         public Table distinct(List<String> selectedColumns) {
-            // DISTINCT Ã³¸® ·ÎÁ÷
-            // Áßº¹À» Á¦°ÅÇÏ¿© °á°ú ¹İÈ¯
+            // DISTINCT ì²˜ë¦¬ ë¡œì§
+            // ì¤‘ë³µì„ ì œê±°í•˜ì—¬ ê²°ê³¼ ë°˜í™˜
             List<Map<String, String>> distinctRows = rows.stream()
                     .distinct()
                     .collect(Collectors.toList());
             return new Table(distinctRows);
         }
 
-        public Table groupBy(List<String> selectedColumns, String groupByColumn) {
-            // GROUP BY Ã³¸® ·ÎÁ÷
-            // ±×·ìÈ­µÈ °á°ú ¹İÈ¯
-            // ¿©±â¼­´Â ´Ü¼øÈ÷ ±×·ìÈ­µÈ °á°ú¸¦ ¸®ÅÏÇÏ´Â °ÍÀ¸·Î °¡Á¤
+        public Table groupBy(String groupByColumn) {
+            // GROUP BY ì²˜ë¦¬ ë¡œì§
+            // ê·¸ë£¹í™”ëœ ê²°ê³¼ ë°˜í™˜
+            // ì—¬ê¸°ì„œëŠ” ë‹¨ìˆœíˆ ê·¸ë£¹í™”ëœ ê²°ê³¼ë¥¼ ë¦¬í„´í•˜ëŠ” ê²ƒ
             return new Table(rows); // Placeholder logic
         }
 
-        public Table orderBy(List<String> selectedColumns, String orderByColumn) {
-            // ORDER BY Ã³¸® ·ÎÁ÷
-            // Á¤·ÄµÈ °á°ú ¹İÈ¯
+        public Table orderBy(String orderByColumn) {
+            // ORDER BY ì²˜ë¦¬ ë¡œì§
+            // ì •ë ¬ëœ ê²°ê³¼ ë°˜í™˜
             List<Map<String, String>> sortedRows = rows.stream()
                     .sorted((r1, r2) -> r1.get(orderByColumn).compareTo(r2.get(orderByColumn)))
                     .collect(Collectors.toList());
@@ -160,9 +113,9 @@ class SQLextension {
         }
 
         public Table select(List<String> selectedColumns) {
-            // SELECT Ã³¸® ·ÎÁ÷
-            // ¼±ÅÃµÈ ¿­À» ¹İÈ¯
-            // ¿©±â¼­´Â ¸ğµç ¿­À» ¼±ÅÃÇÏ´Â °ÍÀ¸·Î °¡Á¤
+            // SELECT ì²˜ë¦¬ ë¡œì§
+            // ì„ íƒëœ ì—´ì„ ë°˜í™˜
+            // ì—¬ê¸°ì„œëŠ” ëª¨ë“  ì—´ì„ ì„ íƒí•˜ëŠ” ê²ƒìœ¼ë¡œ ê°€ì •
             return new Table(rows);
         }
 
